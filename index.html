@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Email field</title>
+    <meta charset="UTF-8" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en&display=swap"
+    />
+    <link rel="stylesheet" href="./styles/reset.scss" />
+    <link rel="stylesheet" href="./styles/index.scss" />
+  </head>
+
+  <body>
+    <form class="email-form">
+      <h1 class="email-form__title">
+        Share
+        <strong class="email-form__accent">Board name</strong>
+        with others
+      </h1>
+      <div class="email-form__email-input" data-widget="EmailsInput"></div>
+      <div class="email-form__buttons">
+        <button class="email-form__add" data-action="addRandomEmail">
+          Add email
+        </button>
+        <button
+          class="email-form__get-count"
+          data-action="showValidEmailsCount"
+        >
+          Get emails count
+        </button>
+      </div>
+    </form>
+
+    <script src="src/index.ts"></script>
+  </body>
+</html>
