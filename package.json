@@ -5,14 +5,12 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "build-emails-input": "parcel build src/components/EmailsInput/index.ts --global EmailsInput"
   },
   "dependencies": {},
   "devDependencies": {
     "parcel-bundler": "^1.6.1"
   },
-  "keywords": [
-    "typescript",
-    "javascript"
-  ]
+  "keywords": ["typescript", "javascript"]
 }
