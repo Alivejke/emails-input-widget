@@ -24,7 +24,8 @@ enum Actions {
   RENDER = "render",
   DESTROY = "destroy",
   ADD_EMAIL = "addEmail",
-  REMOVE_EMAIL = "removeEmail"
+  REMOVE_EMAIL = "removeEmail",
+  FOCUS_INPUT = "focusInput"
 }
 
 class EmailsInput {
@@ -96,8 +97,13 @@ class EmailsInput {
   }
 
   private onInputKeydown = (event: KeyboardEvent): void => {
-    // When `Enter` or `,` is pressed
-    if (event.which === 13 || event.which === 188) {
+    // event.which for IE fallback
+    if (
+      event.which === 13 ||
+      event.which === 188 ||
+      event.key === "," ||
+      event.key === "Enter"
+    ) {
       event.preventDefault();
 
       const target: HTMLElement = event.target as HTMLElement;
@@ -149,24 +155,16 @@ class EmailsInput {
           this.remove(key);
         }
         break;
+      case Actions.FOCUS_INPUT:
+        if (this.$input) {
+          // Special ie case
+          if ((this.$input as any).setActive) {
+            (this.$input as any).setActive();
+          } else {
+            this.$input.focus();
+          }
+        }
     }
-  };
-
-  private remove = (id: string): void => {
-    const emails = this.state.emails.filter(
-      (email): boolean => {
-        return email.id !== id;
-      }
-    );
-
-    this.setState(
-      {
-        emails
-      },
-      () => {
-        this.trigerEvent(Actions.REMOVE_EMAIL);
-      }
-    );
   };
 
   private addEventListeners(): void {
@@ -275,14 +273,20 @@ class EmailsInput {
 
   private renderWidget(): void {
     const $widget = document.createElement("div");
+    $widget.dataset.action = Actions.FOCUS_INPUT;
     $widget.classList.add(this.className);
-
-    // this.state.emails.forEach(email => {
-    //   $widget.appendChild(this.createEmailEl(email));
-    // });
 
     const $input = this.createInputFieldEl();
     $widget.appendChild($input);
+
+    const $emails: DocumentFragment = document.createDocumentFragment();
+    this.state.emails.forEach(
+      (email: Email): void => {
+        $emails.appendChild(this.createEmailEl(email));
+      }
+    );
+    $widget.insertBefore($emails, $input);
+
     this.$root.appendChild($widget);
 
     this.$widget = $widget;
@@ -293,7 +297,8 @@ class EmailsInput {
 
   private getRenderedEmails(): Array<{ key: string; $el: HTMLElement }> {
     if (this.$widget) {
-      return Array.from(this.$widget.childNodes)
+      return Array.prototype.slice
+        .call(this.$widget.childNodes)
         .map((node: ChildNode) => {
           const {
             dataset: { key }
@@ -359,6 +364,23 @@ class EmailsInput {
     this.renderNewEmails(renderedEmailsKeys);
     this.removeDeletedEmails(renderedEmails);
   }
+
+  private remove = (id: string): void => {
+    const emails = this.state.emails.filter(
+      (email): boolean => {
+        return email.id !== id;
+      }
+    );
+
+    this.setState(
+      {
+        emails
+      },
+      () => {
+        this.trigerEvent(Actions.REMOVE_EMAIL);
+      }
+    );
+  };
 
   public getAll(): Array<Email> {
     return this.state.emails;

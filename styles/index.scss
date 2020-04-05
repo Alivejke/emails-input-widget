@@ -1,3 +1,8 @@
+// Just for testing
+body {
+  padding: 10px;
+}
+
 .email-form {
   background: #F8F8F7;
   border-radius: 8px 8px 0px 0px;
@@ -30,7 +35,7 @@
   &__buttons {
     background: #FFFFFF;
     margin: 0 -50px -32px;
-    padding: 24px 50px 32px;
+    padding: 24px 50px;
   }
 
   &__add,
@@ -45,7 +50,7 @@
     text-align: center;
     color: #FFFFFF;
     padding: 8px 16px;
-    margin-right: 16px;
+    margin: 0 16px 8px 0;
     border: none;
   }
 }

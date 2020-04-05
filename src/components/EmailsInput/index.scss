@@ -19,6 +19,7 @@
     background: rgba(102, 153, 255, 0.2);
     border-radius: 100px;
     line-height: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
   }
@@ -35,7 +36,7 @@
   }
 
   &__email-remove {
-    background: url("./src/components/EmailsInput/remove.svg") no-repeat center center;
+    background: url("/src/components/EmailsInput/remove.svg") no-repeat center center;
     display: inline-block;
     width: 8px;
     height: 8px;

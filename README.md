@@ -1,3 +1,8 @@
+## Commands
+
+- `npm start` - to start dev build
+- `npm run build` - to build prod version
+
 ## Widget initialization
 
 ```
