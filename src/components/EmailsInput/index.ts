@@ -146,17 +146,27 @@ class EmailsInput {
           .dataset.key;
 
         if (key) {
-          const emails = this.state.emails.filter(
-            (email): boolean => {
-              return email.id !== key;
-            }
-          );
-          this.setState({
-            emails
-          });
+          this.remove(key);
         }
         break;
     }
+  };
+
+  private remove = (id: string): void => {
+    const emails = this.state.emails.filter(
+      (email): boolean => {
+        return email.id !== id;
+      }
+    );
+
+    this.setState(
+      {
+        emails
+      },
+      () => {
+        this.trigerEvent(Actions.REMOVE_EMAIL);
+      }
+    );
   };
 
   private addEventListeners(): void {
